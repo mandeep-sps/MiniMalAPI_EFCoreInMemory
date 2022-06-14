@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-
+﻿
 namespace Minimal_CRUD
 {
     public class ApiContext : DbContext

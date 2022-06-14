@@ -1,6 +1,3 @@
-using Microsoft.EntityFrameworkCore;
-using Minimal_CRUD;
-using Minimal_CRUD.MinimalAPI_Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +7,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ApiContext>(opt => opt.UseInMemoryDatabase("TestDB"));
 builder.Services.AddScoped<IArticleService, ArticleService>();
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(option =>
+{
+    option.SwaggerDoc("v1", new OpenApiInfo { Title = "Test API", Version = "v1" });
+});
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
@@ -18,7 +19,10 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+    });
 }
 
 app.UseHttpsRedirection();
